@@ -13,34 +13,34 @@ namespace Marketplace.Dominio.Servicos.Comum
             _repositorio = repositorio;
         }
 
-        public Task Adicionar(TEntity entity)
+        public async Task Adicionar(TEntity entity)
         {
-          return  _repositorio.Adicionar(entity);
+            await _repositorio.Adicionar(entity);
         }
 
-        public Task Atualizar(TEntity entity)
+        public async Task Atualizar(TEntity entity)
         {
-           return _repositorio.Atualizar(entity);
+            await _repositorio.Atualizar(entity);
         }
 
-        public Task<IEnumerable<TEntity>> Buscar<TOrderKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TOrderKey>>? orderBy = null)
+        public async Task<IEnumerable<TEntity>> Buscar<TOrderKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TOrderKey>>? orderBy = null)
         {
-           return _repositorio.Buscar(predicate, orderBy);    
+            return await _repositorio.Buscar(predicate, orderBy);
         }
 
-        public Task Excluir(TEntity entity)
+        public async Task Excluir(TEntity entity)
         {
-            return _repositorio.Excluir(entity);
+            await _repositorio.Excluir(entity);
         }
 
-        public Task<TEntity?> ObterPorId(Guid id)
+        public async Task<TEntity?> ObterPorId(Guid id)
         {
-            return _repositorio.ObterPorId(id);
+            return await _repositorio.ObterPorId(id);
         }
 
-        public Task<IEnumerable<TEntity>> ObterTodos()
+        public async Task<IEnumerable<TEntity>> ObterTodos()
         {
-            return _repositorio.ObterTodos();
+            return await _repositorio.ObterTodos();
         }
     }
 }

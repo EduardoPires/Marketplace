@@ -7,6 +7,7 @@ namespace Marketplace.Dominio.Entidades
         [Key]
         public Guid Codigo { get; set; } = Guid.NewGuid();
         public string Nome { get; set; }
+        [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
     }

@@ -9,13 +9,8 @@ namespace Marketplace.Infra.Contexto.Mapeamento
         public void Configure(EntityTypeBuilder<Categoria> builder)
         {
             builder.HasKey(x => x.Codigo);
-
-            builder.Property(x => x.Nome)
-                .HasColumnType("varchar(200)");
-
-            builder.Property(x => x.Descricao)
-                 .HasColumnType("varchar(200)");
-
+            builder.Property(x => x.Nome).IsRequired();
+            builder.Property(x => x.Descricao).IsRequired();
             builder.ToTable("Categoria");
         }
     }
