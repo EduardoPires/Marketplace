@@ -4,88 +4,76 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Marketplace.UI.MVC.Controllers
 {
-    public class CategoriaController : Controller
+    [Route("categorias")]
+    public class CategoriaController(ILogger<CategoriaController> logger, ICategoriaAppService categoriaAppService) : Controller
     {
-        private readonly ICategoriaAppService _appServico;
-        private readonly ILogger<CategoriaController> _logger;
-
-        public CategoriaController(ILogger<CategoriaController> logger, ICategoriaAppService appService)
-        {
-            _logger = logger;
-            _appServico = appService;
-        }
+        private readonly ICategoriaAppService _categoriaAppService = categoriaAppService;
+        private readonly ILogger<CategoriaController> _logger = logger;
 
         public async Task<IActionResult> Index()
         {
-            return View(await _appServico.ObterTodos());
+            return View(await _categoriaAppService.ObterTodos());
         }
-
-        public ActionResult Details(Guid id)
+        [Route("{id:guid}/detalhes")]
+        public async Task<IActionResult> Details(Guid id)
         {
-            return View(_appServico.ObterPorId(id));
+            return View(await _categoriaAppService.ObterPorId(id));
         }
-
         [Route("novo")]
-        public ActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
-
         [HttpPost("novo")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Codigo,Nome,Descricao")] Categoria categoria)
         {
             try
             {
-                await _appServico.Adicionar(categoria);
+
+                await _categoriaAppService.Adicionar(categoria);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                _logger.LogError(ex, "Erro ao criar produto");
+                return View(categoria);
             }
-        }
 
-        // GET: CategoriaController/Edit/5
-        public ActionResult Edit(int id)
+        }
+        [Route("editar/{id:guid}")]
+        public async Task<IActionResult> Edit(Guid id)
         {
-            return View();
+            ;
+            return View(await _categoriaAppService.ObterPorId(id));
         }
-
-        // POST: CategoriaController/Edit/5
-        [HttpPost]
+        [HttpPost("editar/{id:guid}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Codigo,Nome,Descricao")] Categoria categoria)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                await _categoriaAppService.Atualizar(categoria);
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                return NotFound();
             }
+            return RedirectToAction(nameof(Index));
         }
-
-        // GET: CategoriaController/Delete/5
-        public ActionResult Delete(int id)
+        [Route("excluir/{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            return View();
+            return View(await _categoriaAppService.ObterPorId(id));
         }
-
-        // POST: CategoriaController/Delete/5
-        [HttpPost]
+        [HttpPost("excluir/{id:guid}")]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var categoria = await _categoriaAppService.ObterPorId(id);
+            await _categoriaAppService.Excluir(categoria);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
