@@ -1,6 +1,7 @@
 using Marketplace.Infra.CrossCutting.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRazorPages();
 // Add services to the container.
 BootStrapper.Register(builder.Services);
 builder.Services.AddControllersWithViews();
@@ -20,8 +21,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 app.Run();

@@ -7,6 +7,7 @@ using Marketplace.Dominio.Interfaces.Repositorio;
 using Marketplace.Infra.Repositorio.EntityFramework;
 using Marketplace.Infra.Contexto;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Marketplace.Infra.CrossCutting.IoC
 {
@@ -14,6 +15,7 @@ namespace Marketplace.Infra.CrossCutting.IoC
     {
         public static void Register(IServiceCollection services)
         {
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<EFDbContext>();
             services.AddDbContext<EFDbContext>(options => options.UseSqlServer("Server=localhost;Database=Marketplace;User ID=sa;Password=1q2w3e4r@#$;TrustServerCertificate=True;"));
 
             services.AddScoped<IProdutoAppService, ProdutoAppService>();

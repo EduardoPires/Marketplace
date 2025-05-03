@@ -1,21 +1,19 @@
+using Marketplace.Aplicacao.Interfaces;
+using Marketplace.Aplicacao;
 using Marketplace.UI.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Marketplace.UI.MVC.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(ILogger<HomeController> logger, IProdutoAppService produtoAppService) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IProdutoAppService _produtoAppService = produtoAppService;
+        private readonly ILogger<HomeController> _logger = logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public async Task<IActionResult> Index()
         {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
+            return View(await _produtoAppService.ObterTodos());
         }
 
         public IActionResult Privacy()
