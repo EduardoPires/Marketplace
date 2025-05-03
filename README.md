@@ -1,4 +1,4 @@
-# **[Título do Projeto] - Aplicação de Marketplace Simples com MVC e API RESTful**
+# **[Marketplace] - Aplicação de Marketplace Simples com MVC e API RESTful**
 
 ## **1. Apresentação**
 
