@@ -23,3 +23,7 @@ body {
 .form-group {
     padding-bottom: 10px;
 }
+.imagem-produto {
+    width: 100px;
+    height: auto;
+}

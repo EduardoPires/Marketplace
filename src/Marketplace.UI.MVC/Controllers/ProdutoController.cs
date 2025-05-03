@@ -33,7 +33,12 @@ namespace Marketplace.UI.MVC.Controllers
         {
             try
             {
-                produto.Imagem = [3, 3, 3];
+                if (Imagem != null && Imagem.Length > 0)
+                {
+                    using var ms = new MemoryStream();
+                    await Imagem.CopyToAsync(ms);
+                    produto.Imagem = ms.ToArray();
+                }
                 await _produtoAppService.Adicionar(produto);
                 return RedirectToAction(nameof(Index));
             }

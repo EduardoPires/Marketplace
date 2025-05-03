@@ -40,7 +40,12 @@
                     @Html.DisplayFor(modelItem => item.Descricao)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Imagem)
+                    @if (item.Imagem != null && item.Imagem.Length > 0)
+                    {
+                        var base64Image = Convert.ToBase64String(item.Imagem);
+                        var imgSrc = $"data:image/jpeg;base64,{base64Image}";
+                        <img src="@imgSrc" alt="Imagem do Produto" class="imagem-produto" />
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Preco)

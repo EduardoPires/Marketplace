@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Marketplace.Infra.Contexto.Migrations
 {
     [DbContext(typeof(EFDbContext))]
-    [Migration("20250503153017_InitialCreate")]
+    [Migration("20250503181935_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
